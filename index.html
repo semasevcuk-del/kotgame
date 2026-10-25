@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Кото-Кликер: Мурр-Магнат</title>
+
+    <!-- Yandex Games SDK v2 -->
+    <script src="https://yandex.ru/games/sdk/v2"></script>
+    <!-- VK Bridge SDK for VK Games -->
+    <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="logo-group">
+                <span class="logo-icon">🐱</span>
+                <div class="logo-text">
+                    <h1>Мурр-Магнат</h1>
+                    <div id="prestige-stars-display" class="prestige-stars-badge">0 ⭐ (+0%)</div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="btn-skins" class="icon-btn" title="Гардероб">👔</button>
+                <button id="btn-achievements" class="icon-btn" title="Достижения">🏆</button>
+                <button id="btn-leaderboard" class="icon-btn" title="Таблица лидеров">📊</button>
+                <button id="btn-share" class="icon-btn" title="Поделиться">📢</button>
+                <button id="btn-sound" class="icon-btn" title="Звук">🔊</button>
+                <button id="btn-fullscreen" class="icon-btn" title="Полный экран">⛶</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="game-content">
+            <!-- Left: Clicker Arena -->
+            <section class="clicker-arena">
+                <!-- Coin Counter -->
+                <div class="stats-banner">
+                    <div class="coin-counter-container">
+                        <span class="coin-icon">🪙</span>
+                        <span id="coins-display" class="coin-amount">0</span>
+                    </div>
+
+                    <div class="sub-stats">
+                        <span>В секунду: <strong id="dps-display">0</strong></span>
+                        <span>За клик: <strong id="click-power-display">1</strong></span>
+                    </div>
+
+                    <!-- Active Boost Indicators -->
+                    <div class="active-boosts-bar">
+                        <div id="frenzy-indicator" class="boost-pill frenzy hidden">🔥 ФРЕНЗИ x7: 30с</div>
+                        <div id="ad-boost-indicator" class="boost-pill income hidden">⚡ БУСТ x2: 180с</div>
+                    </div>
+                </div>
+
+                <!-- Mascot Center -->
+                <div class="mascot-wrapper" id="mascot-touch-zone">
+                    <div class="mascot-glow"></div>
+                    <div id="mascot-cat" class="cat-mascot skin-classic">
+                        <!-- High quality vector SVG Cat -->
+                        <svg class="mascot-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Ears -->
+                            <polygon points="40,90 20,25 90,60" fill="#f97316" stroke="#ea580c" stroke-width="6" stroke-linejoin="round"/>
+                            <polygon points="48,82 32,38 82,62" fill="#fed7aa" />
+                            <polygon points="160,90 180,25 110,60" fill="#f97316" stroke="#ea580c" stroke-width="6" stroke-linejoin="round"/>
+                            <polygon points="152,82 168,38 118,62" fill="#fed7aa" />
+
+                            <!-- Body & Head -->
+                            <circle cx="100" cy="115" r="75" fill="#fb923c" stroke="#ea580c" stroke-width="7"/>
+                            
+                            <!-- Cheeks -->
+                            <ellipse cx="65" cy="125" rx="10" ry="6" fill="#fca5a5" opacity="0.6"/>
+                            <ellipse cx="135" cy="125" rx="10" ry="6" fill="#fca5a5" opacity="0.6"/>
+
+                            <!-- Eyes -->
+                            <ellipse cx="70" cy="105" rx="12" ry="15" fill="#1e293b"/>
+                            <circle cx="67" cy="100" r="5" fill="#ffffff"/>
+                            <circle cx="73" cy="110" r="2" fill="#ffffff"/>
+
+                            <ellipse cx="130" cy="105" rx="12" ry="15" fill="#1e293b"/>
+                            <circle cx="127" cy="100" r="5" fill="#ffffff"/>
+                            <circle cx="133" cy="110" r="2" fill="#ffffff"/>
+
+                            <!-- Nose & Mouth -->
+                            <polygon points="100,122 93,114 107,114" fill="#f43f5e"/>
+                            <path d="M93,122 Q85,134 76,128" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <path d="M107,122 Q115,134 124,128" stroke="#1e293b" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+                            <!-- Whiskers -->
+                            <line x1="30" y1="116" x2="62" y2="120" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="28" y1="128" x2="60" y2="126" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="170" y1="116" x2="138" y2="120" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="172" y1="128" x2="140" y2="126" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- Paws in front -->
+                            <ellipse cx="65" cy="165" rx="20" ry="14" fill="#fed7aa" stroke="#ea580c" stroke-width="5"/>
+                            <ellipse cx="135" cy="165" rx="20" ry="14" fill="#fed7aa" stroke="#ea580c" stroke-width="5"/>
+                            <line x1="58" y1="162" x2="58" y2="172" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="72" y1="162" x2="72" y2="172" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="128" y1="162" x2="128" y2="172" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="142" y1="162" x2="142" y2="172" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+
+                        <!-- Dynamic accessories layer -->
+                        <div id="cat-accessories"></div>
+                    </div>
+                </div>
+
+                <!-- Fast Rewarded Ad Boosters -->
+                <div class="boost-actions-bar">
+                    <button id="btn-boost-x2" class="btn-boost">
+                        <span>⚡ x2 Доход</span>
+                        <span class="ad-badge">РЕКЛАМА</span>
+                    </button>
+                    <button id="btn-boost-chest" class="btn-boost">
+                        <span>🎁 Сундук</span>
+                        <span class="ad-badge">РЕКЛАМА</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right: Upgrades & Progression Panel -->
+            <aside class="upgrades-panel">
+                <nav class="panel-tabs">
+                    <button class="tab-btn active" data-tab="tab-click">🐾 Клики</button>
+                    <button class="tab-btn" data-tab="tab-idle">🏢 Бизнес</button>
+                    <button class="tab-btn" data-tab="tab-prestige">✨ Нирвана</button>
+                </nav>
+
+                <!-- Tab 1: Click Upgrades -->
+                <div id="tab-click" class="tab-content">
+                    <div id="click-upgrades-list"></div>
+                </div>
+
+                <!-- Tab 2: Idle Business Upgrades -->
+                <div id="tab-idle" class="tab-content hidden">
+                    <div id="idle-upgrades-list"></div>
+                </div>
+
+                <!-- Tab 3: Prestige (Нирвана) -->
+                <div id="tab-prestige" class="tab-content hidden">
+                    <div style="padding: 10px; text-align: center; display: flex; flex-direction: column; gap: 14px;">
+                        <div style="font-size: 48px;">🌌</div>
+                        <h2 style="font-size: 18px; color: #fbbf24;">Кошачья Нирвана</h2>
+                        <p style="font-size: 13px; color: #94a3b8; line-height: 1.4;">
+                            Сбросьте монеты и бизнес, чтобы получить постоянные <strong>Звёзды Нирваны</strong>.<br>
+                            Каждая звезда навсегда даёт <strong>+15%</strong> ко всем доходам и открывает легендарные облики!
+                        </p>
+
+                        <div style="background: rgba(255,255,255,0.05); padding: 14px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <div style="font-size: 13px; color: #cbd5e1;">При перерождении вы получите:</div>
+                            <div id="pending-stars-display" style="font-size: 28px; font-weight: 900; color: #facc15; margin-top: 4px;">+0 ⭐</div>
+                        </div>
+
+                        <button id="prestige-confirm-btn" class="btn btn-primary" onclick="window.game.doPrestige()">
+                            Совершить Перерождение ✨
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+
+        <!-- Offline Earnings Modal -->
+        <div id="offline-modal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3>Добро пожаловать обратно!</h3>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <div style="font-size: 48px;">💤➡️🪙</div>
+                    <p style="color: #cbd5e1;">Пока вас не было (<span id="offline-time">0 мин</span>), ваши котики заработали:</p>
+                    <div style="font-size: 32px; font-weight: 900; color: #facc15; margin: 8px 0;">
+                        +<span id="offline-amount">0</span> 🪙
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-reward" onclick="window.game.claimOfflineRewardWithAd()">
+                            <span>Утроить x3 за рекламу 🎁</span>
+                            <span class="ad-badge">РЕКЛАМА</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="window.game.claimOfflineReward(1)">
+                            Забрать обычно
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skins Modal -->
+        <div id="skins-modal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3>Кошачий Гардероб</h3>
+                    <button class="modal-close-btn" onclick="document.getElementById('skins-modal').classList.add('hidden')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="skins-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements Modal -->
+        <div id="achievements-modal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3>Достижения</h3>
+                    <button class="modal-close-btn" onclick="document.getElementById('achievements-modal').classList.add('hidden')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="achievements-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Modal -->
+        <div id="leaderboard-modal" class="modal-overlay hidden">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3>Таблица Лидеров</h3>
+                    <button class="modal-close-btn" onclick="document.getElementById('leaderboard-modal').classList.add('hidden')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="leaderboard-list" style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="text-align: center; color: #94a3b8; padding: 20px;">Загрузка лидеров...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="yandex-sdk.js"></script>
+    <script src="audio.js"></script>
+    <script src="particles.js"></script>
+    <script src="game.js"></script>
+
+    <!-- App Lifecycle & UI Controller -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Setup Sound Manager Callbacks with SDK
+            window.yandexSDK.onPauseAudio = () => {
+                if (window.soundManager && window.soundManager.ctx) {
+                    window.soundManager.ctx.suspend();
+                }
+            };
+            window.yandexSDK.onResumeAudio = () => {
+                if (window.soundManager && window.soundManager.ctx) {
+                    window.soundManager.resume();
+                }
+            };
+
+            // 2. Window Visibility (Pause sound when tab is inactive)
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    if (window.soundManager && window.soundManager.ctx) {
+                        window.soundManager.ctx.suspend();
+                    }
+                    if (window.yandexSDK) {
+                        window.yandexSDK.gameplayStop();
+                    }
+                } else {
+                    if (window.soundManager && window.soundManager.ctx) {
+                        window.soundManager.resume();
+                    }
+                    if (window.yandexSDK) {
+                        window.yandexSDK.gameplayStart();
+                    }
+                }
+            });
+
+            // 3. Init Yandex Games SDK & load game data
+            await window.yandexSDK.init();
+            await window.game.load();
+            window.game.start();
+
+            if (window.yandexSDK) {
+                window.yandexSDK.gameplayStart();
+            }
+
+            // 4. Cat Mascot Click / Touch Handler (Supports multi-touch tapping!)
+            const touchZone = document.getElementById('mascot-touch-zone');
+            
+            touchZone.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                const rect = touchZone.getBoundingClientRect();
+                const x = e.clientX || (rect.left + rect.width / 2);
+                const y = e.clientY || (rect.top + rect.height / 2);
+
+                window.game.handleClick(x, y);
+
+                // Squash animation
+                const cat = document.getElementById('mascot-cat');
+                if (cat) {
+                    cat.style.transform = 'scale(0.88)';
+                    setTimeout(() => {
+                        cat.style.transform = '';
+                    }, 90);
+                }
+            });
+
+            // Spacebar support for Desktop players
+            window.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    const rect = touchZone.getBoundingClientRect();
+                    window.game.handleClick(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                }
+            });
+
+            // 5. Sound Toggle Button
+            const soundBtn = document.getElementById('btn-sound');
+            const updateSoundBtn = () => {
+                if (soundBtn) {
+                    soundBtn.innerText = window.soundManager.enabled ? '🔊' : '🔇';
+                }
+            };
+            updateSoundBtn();
+            soundBtn.addEventListener('click', () => {
+                window.soundManager.toggle();
+                updateSoundBtn();
+            });
+
+            // 6. Fullscreen Toggle Button
+            const fsBtn = document.getElementById('btn-fullscreen');
+            fsBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            });
+
+            // 7. Rewarded Ad Boosts
+            document.getElementById('btn-boost-x2').addEventListener('click', () => {
+                window.yandexSDK.showRewardedVideo({
+                    onRewarded: () => {
+                        window.game.activateAdDoubleBoost(180);
+                    }
+                });
+            });
+
+            document.getElementById('btn-boost-chest').addEventListener('click', () => {
+                window.yandexSDK.showRewardedVideo({
+                    onRewarded: () => {
+                        window.game.grantInstantChestReward();
+                    }
+                });
+            });
+
+            // 8. Tabs Switching
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.add('hidden'));
+
+                    tab.classList.add('active');
+                    const targetId = tab.dataset.tab;
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) targetEl.classList.remove('hidden');
+                });
+            });
+
+            // 9. Modals Controls
+            document.getElementById('btn-skins').addEventListener('click', () => {
+                window.game.renderSkinsList();
+                document.getElementById('skins-modal').classList.remove('hidden');
+            });
+
+            document.getElementById('btn-achievements').addEventListener('click', () => {
+                window.game.renderAchievementsList();
+                document.getElementById('achievements-modal').classList.remove('hidden');
+            });
+
+            document.getElementById('btn-share').addEventListener('click', () => {
+                const coinsStr = ClickerGame.formatNumber(window.game ? window.game.coins : 0);
+                window.yandexSDK.sharePost(`🐱 Моя кошачья империя уже накопила ${coinsStr} монет в «Кото-Кликере»! Попробуй обогнать меня! 🚀`);
+            });
+
+            document.getElementById('btn-leaderboard').addEventListener('click', async () => {
+                const modal = document.getElementById('leaderboard-modal');
+                const list = document.getElementById('leaderboard-list');
+                modal.classList.remove('hidden');
+                list.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 20px;">Загрузка...</div>';
+
+                const entries = await window.yandexSDK.getLeaderboardEntries('top_coins', 10);
+                if (entries.length === 0) {
+                    list.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 20px;">Таблица пока пуста</div>';
+                    return;
+                }
+
+                list.innerHTML = entries.map(item => `
+                    <div class="leaderboard-row ${item.isUser ? 'user-row' : ''}">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="rank-badge">#${item.rank}</span>
+                            <span style="font-weight: 600; font-size: 14px;">${item.name}</span>
+                        </div>
+                        <span style="font-weight: 800; color: #facc15; font-size: 13px;">${ClickerGame.formatNumber(item.score)} 🪙</span>
+                    </div>
+                `).join('');
+            });
+
+            // Close modal on background click
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay && overlay.id !== 'offline-modal') {
+                        overlay.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

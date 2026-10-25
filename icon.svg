@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#3b2d54"/>
+      <stop offset="100%" stop-color="#0f111a"/>
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="catGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="100" fill="url(#bgGlow)"/>
+
+  <!-- Golden Ring of Wealth -->
+  <circle cx="256" cy="270" r="195" fill="none" stroke="url(#goldGrad)" stroke-width="14" opacity="0.4" stroke-dasharray="24 16"/>
+
+  <!-- Sparks -->
+  <text x="70" y="140" font-size="44" fill="#facc15">✨</text>
+  <text x="410" y="150" font-size="52" fill="#facc15">🪙</text>
+  <text x="390" y="380" font-size="38" fill="#facc15">⭐</text>
+  <text x="80" y="390" font-size="40" fill="#facc15">🐾</text>
+
+  <!-- Cat Ears -->
+  <g filter="url(#shadow)">
+    <polygon points="150,220 100,70 240,150" fill="#f97316" stroke="#c2410c" stroke-width="12" stroke-linejoin="round"/>
+    <polygon points="160,200 120,95 225,150" fill="#fed7aa"/>
+    <polygon points="362,220 412,70 272,150" fill="#f97316" stroke="#c2410c" stroke-width="12" stroke-linejoin="round"/>
+    <polygon points="352,200 392,95 287,150" fill="#fed7aa"/>
+
+    <!-- Cat Head & Body -->
+    <circle cx="256" cy="280" r="150" fill="url(#catGrad)" stroke="#c2410c" stroke-width="14"/>
+
+    <!-- Royal Crown -->
+    <path d="M210,135 L225,85 L256,115 L287,85 L302,135 Z" fill="url(#goldGrad)" stroke="#a16207" stroke-width="6"/>
+    <circle cx="225" cy="85" r="7" fill="#ef4444"/>
+    <circle cx="256" cy="115" r="7" fill="#3b82f6"/>
+    <circle cx="287" cy="85" r="7" fill="#10b981"/>
+
+    <!-- Eyes -->
+    <ellipse cx="200" cy="260" rx="22" ry="28" fill="#0f172a"/>
+    <circle cx="194" cy="250" r="9" fill="#ffffff"/>
+    <circle cx="206" cy="268" r="4" fill="#ffffff"/>
+
+    <ellipse cx="312" cy="260" rx="22" ry="28" fill="#0f172a"/>
+    <circle cx="306" cy="250" r="9" fill="#ffffff"/>
+    <circle cx="318" cy="268" r="4" fill="#ffffff"/>
+
+    <!-- Rosy Cheeks -->
+    <ellipse cx="180" cy="295" rx="16" ry="10" fill="#f43f5e" opacity="0.45"/>
+    <ellipse cx="332" cy="295" rx="16" ry="10" fill="#f43f5e" opacity="0.45"/>
+
+    <!-- Nose & Smile -->
+    <polygon points="256,290 244,276 268,276" fill="#f43f5e"/>
+    <path d="M244,290 Q230,312 216,300" stroke="#0f172a" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M268,290 Q282,312 296,300" stroke="#0f172a" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+    <!-- Big Golden Coin Paws -->
+    <circle cx="256" cy="400" r="45" fill="url(#goldGrad)" stroke="#854d0e" stroke-width="6"/>
+    <text x="238" y="416" font-size="44" font-weight="900" fill="#713f12">₽</text>
+  </g>
+</svg>
